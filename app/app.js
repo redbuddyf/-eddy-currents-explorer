@@ -289,9 +289,12 @@ class MagnetDropDemo {
         
         // Eddy current braking in tube (150-400)
         if (this.magnetY > 150 && this.magnetY < 400 && mat.cond > 0) {
+            // Braking force calculation
             const braking = this.velocity * mat.cond * 0.25;
             this.velocity -= braking;
-            this.eddyStrength = this.velocity * mat.cond;
+            // Eddy current display: purely based on material conductivity (for educational clarity)
+            // Copper = 12A, Aluminum = 7A (proportional to conductivity)
+            this.eddyStrength = mat.cond * 12;
         } else {
             this.eddyStrength = 0;
         }
@@ -402,8 +405,8 @@ class MagnetDropDemo {
         const force = document.getElementById('forceValue');
         
         if (vel) vel.textContent = this.velocity.toFixed(1);
-        if (cur) cur.textContent = (this.eddyStrength * 2).toFixed(1);
-        if (force) force.textContent = (this.eddyStrength).toFixed(1);
+        if (cur) cur.textContent = this.eddyStrength.toFixed(1);
+        if (force) force.textContent = (this.eddyStrength * 0.5).toFixed(1);
     }
 }
 
@@ -779,9 +782,9 @@ class PendulumExperiment {
         this.hasSlits = false;
         
         this.materials = {
-            copper: { damping: 0.95, color: '#b87333' },      // Highest damping - best conductor
-            aluminum: { damping: 0.97, color: '#a8a8a8' },    // 61% of copper's conductivity
-            plastic: { damping: 0.999, color: '#ff6b9d' }     // Essentially no eddy currents
+            copper: { damping: 0.92, color: '#b87333' },    // Strongest braking - 8% loss per frame
+            aluminum: { damping: 0.97, color: '#a8a8a8' },  // Medium braking - 3% loss per frame  
+            plastic: { damping: 0.999, color: '#ff6b9d' }   // No braking - 0.1% loss per frame
         };
         
         this.init();
@@ -911,10 +914,12 @@ class PendulumExperiment {
         ctx.fillStyle = '#3b82f6';
         ctx.fillRect(bobX - 12, bobY + 12, 24, 12);
         
-        // Eddy currents
+        // Eddy currents - stronger for copper, weaker for aluminum
         if (this.material !== 'plastic' && Math.abs(this.angle) < 0.5 && bobY > originY + length) {
-            ctx.strokeStyle = 'rgba(255, 215, 0, 0.6)';
-            ctx.lineWidth = 2;
+            const intensity = this.material === 'copper' ? 0.9 : 0.5;  // Copper = 100%, Aluminum = ~50%
+            const lineWidth = this.material === 'copper' ? 3 : 2;
+            ctx.strokeStyle = `rgba(255, 215, 0, ${intensity})`;
+            ctx.lineWidth = lineWidth;
             ctx.setLineDash([5, 3]);
             ctx.beginPath();
             ctx.ellipse(bobX, originY + length + 37, 30, 10, 0, 0, Math.PI * 2);
@@ -1226,9 +1231,9 @@ class ConductivityExperiment {
         
         this.ctx = this.canvas.getContext('2d');
         this.materials = [
-            { name: 'Copper', cond: 1.0, color: '#b87333', y: 0 },
-            { name: 'Aluminum', cond: 0.61, color: '#a8a8a8', y: 0 },
-            { name: 'Steel', cond: 0.025, color: '#64748b', y: 0 }
+            { name: 'Copper', cond: 1.0, color: '#b87333', y: 0 },      // 100% conductivity (IACS standard)
+            { name: 'Aluminum', cond: 0.61, color: '#a8a8a8', y: 0 },   // 61% of copper
+            { name: 'Steel', cond: 0.025, color: '#64748b', y: 0 }      // 2.5% of copper (was 0.15 - too high!)
         ];
         this.isAnimating = false;
         
