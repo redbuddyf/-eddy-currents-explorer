@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports | Science Unpacked</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .reports-hero {
+            padding: 140px 0 60px;
+            background: linear-gradient(135deg, var(--surface) 0%, var(--background) 100%);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .reports-section {
+            padding: 60px 0 100px;
+        }
+        
+        .upload-card {
+            background: linear-gradient(135deg, var(--surface) 0%, var(--surface-light) 100%);
+            border: 2px dashed var(--border);
+            border-radius: var(--radius-lg);
+            padding: 48px;
+            text-align: center;
+            margin-bottom: 48px;
+            transition: var(--transition);
+        }
+        
+        .upload-card:hover {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, var(--surface) 100%);
+        }
+        
+        .upload-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 24px;
+        }
+        
+        .upload-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+        
+        .upload-card p {
+            color: var(--text-muted);
+            max-width: 500px;
+            margin: 0 auto 24px;
+        }
+        
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        
+        .report-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            transition: var(--transition);
+        }
+        
+        .report-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-glow);
+        }
+        
+        .report-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient-1);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .report-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+        
+        .report-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 16px;
+        }
+        
+        .report-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .report-description {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .report-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .btn-report {
+            flex: 1;
+            padding: 10px 16px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-report-primary {
+            background: var(--gradient-1);
+            color: white;
+        }
+        
+        .btn-report-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn-report-secondary {
+            background: var(--surface-light);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-report-secondary:hover {
+            border-color: var(--primary);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+        }
+        
+        .empty-state-icon {
+            font-size: 4rem;
+            color: var(--text-dim);
+            margin-bottom: 20px;
+        }
+        
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+        
+        .empty-state p {
+            color: var(--text-muted);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <div class="brand-logo">
+                    <img src="assets/logo-icon.svg" alt="Science Unpacked" width="32" height="32">
+                </div>
+                <span class="brand-text">Science<span class="brand-accent">Unpacked</span></span>
+            </a>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="topics.html" class="nav-link">Topics</a>
+                <a href="eddy-currents.html" class="nav-link">Eddy Currents</a>
+                <a href="notes.html" class="nav-link">Notes</a>
+                <a href="quiz.html" class="nav-link">Quiz</a>
+                <a href="reports.html" class="nav-link active">Reports</a>
+                <a href="about.html" class="nav-link">About</a>
+            </div>
+            
+            <button class="mobile-toggle" id="mobileToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="reports-hero">
+        <div class="container">
+            <span class="section-tag">Downloads</span>
+            <h1 class="section-title">Lab Reports & Resources</h1>
+            <p class="section-subtitle">Download full lab reports, assessment documents, and study resources</p>
+        </div>
+    </section>
+
+    <!-- Reports Section -->
+    <section class="reports-section">
+        <div class="container">
+            <!-- Upload Info -->
+            <div class="upload-card">
+                <div class="upload-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <h3>How to Add Reports</h3>
+                <p>To upload a new report, add your PDF file to the <code>reports/</code> folder in the GitHub repository, then update this page with the report details.</p>
+                <a href="https://github.com/redbuddyf/eddy-currents-explorer/upload/main/reports" target="_blank" class="btn btn-primary">
+                    <i class="fas fa-github"></i>
+                    Upload to GitHub
+                </a>
+            </div>
+
+            <!-- Reports Grid -->
+            <div class="reports-grid" id="reportsGrid">
+                <!-- Report Card Example -->
+                <div class="report-card">
+                    <div class="report-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <h3>Eddy Currents Lab Report</h3>
+                    <div class="report-meta">
+                        <span><i class="fas fa-calendar"></i> 2026</span>
+                        <span><i class="fas fa-file"></i> PDF</span>
+                    </div>
+                    <p class="report-description">
+                        Full physics assessment report covering electromagnetic induction, Lenz's Law, and practical applications including magnetic braking and maglev technology.
+                    </p>
+                    <div class="report-actions">
+                        <a href="reports/eddy-currents-report.pdf" class="btn-report btn-report-primary" target="_blank">
+                            <i class="fas fa-download"></i>
+                            Download
+                        </a>
+                        <a href="reports/eddy-currents-report.pdf" class="btn-report btn-report-secondary" target="_blank">
+                            <i class="fas fa-eye"></i>
+                            View
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Template for adding more reports -->
+                <!--
+                <div class="report-card">
+                    <div class="report-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <h3>Report Title</h3>
+                    <div class="report-meta">
+                        <span><i class="fas fa-calendar"></i> YEAR</span>
+                        <span><i class="fas fa-file"></i> PDF</span>
+                    </div>
+                    <p class="report-description">
+                        Description of the report content.
+                    </p>
+                    <div class="report-actions">
+                        <a href="reports/filename.pdf" class="btn-report btn-report-primary" target="_blank">
+                            <i class="fas fa-download"></i>
+                            Download
+                        </a>
+                    </div>
+                </div>
+                -->
+            </div>
+
+            <!-- Empty State (shown when no reports) -->
+            <!--
+            <div class="empty-state">
+                <div class="empty-state-icon">
+                    <i class="fas fa-folder-open"></i>
+                </div>
+                <h3>No Reports Yet</h3>
+                <p>Reports will appear here once uploaded. Check back soon!</p>
+            </div>
+            -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="brand-logo">
+                        <img src="assets/logo-icon.svg" alt="Science Unpacked" width="32" height="32">
+                    </div>
+                    <span class="brand-text">Science<span class="brand-accent">Unpacked</span></span>
+                    <p>Physics & Chemistry education made simple.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="topics.html">Topics</a>
+                    <a href="eddy-currents.html">Eddy Currents</a>
+                    <a href="notes.html">Notes</a>
+                    <a href="quiz.html">Quiz</a>
+                    <a href="reports.html">Reports</a>
+                    <a href="about.html">About</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Science Unpacked. Physics & Chemistry Education.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
