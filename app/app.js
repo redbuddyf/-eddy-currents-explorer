@@ -698,6 +698,12 @@ class MaglevDemo {
     }
     
     togglePropulsion() {
+        // Can't propel if not levitating
+        if (!this.isLevitating) {
+            alert('Train must be levitating before propulsion can engage!');
+            return;
+        }
+        
         if (this.speed > 0) {
             this.targetSpeed = 0;
         } else {
