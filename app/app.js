@@ -669,6 +669,11 @@ class MaglevDemo {
     }
     
     toggleLevitation() {
+        // If currently levitating and landing, emergency stop first
+        if (this.isLevitating && this.speed > 0) {
+            this.emergencyStop();
+        }
+        
         this.isLevitating = !this.isLevitating;
         
         const train = document.getElementById('maglevTrain');
@@ -735,10 +740,37 @@ class MaglevDemo {
     }
     
     emergencyStop() {
+        // Stop the train
         this.targetSpeed = 0;
         this.speed = 0;
         this.updateDisplay();
         this.stopPropulsionAnim();
+        
+        // Also land the train
+        if (this.isLevitating) {
+            this.isLevitating = false;
+            
+            const train = document.getElementById('maglevTrain');
+            const glow = document.getElementById('levitationGlow');
+            const fields = document.getElementById('fieldLines');
+            const gap = document.getElementById('gapIndicator');
+            const indicator = document.querySelector('.status-indicator');
+            const text = document.querySelector('.status-text');
+            const levBtn = document.getElementById('levitateBtn');
+            
+            if (train) train.classList.remove('levitating');
+            if (glow) glow.classList.remove('active');
+            if (fields) fields.classList.remove('active');
+            if (gap) gap.classList.remove('active');
+            if (indicator) indicator.classList.remove('on');
+            if (text) {
+                text.textContent = 'OFF';
+                text.style.color = '';
+            }
+            if (levBtn) {
+                levBtn.innerHTML = '<span class="btn-icon">🛫</span><span class="btn-label">Levitate</span>';
+            }
+        }
         
         const btn = document.getElementById('propelBtn');
         if (btn) btn.innerHTML = '<span class="btn-icon">⚡</span><span class="btn-label">Propel</span>';
