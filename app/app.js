@@ -669,9 +669,10 @@ class MaglevDemo {
     }
     
     toggleLevitation() {
-        // If currently levitating and landing, emergency stop first
+        // If currently levitating and landing, emergency stop first (which also lands)
         if (this.isLevitating && this.speed > 0) {
             this.emergencyStop();
+            return; // emergencyStop already handles landing, so we're done
         }
         
         this.isLevitating = !this.isLevitating;
